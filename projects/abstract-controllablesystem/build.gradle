@@ -1,0 +1,24 @@
+/********************************************************************************
+ * Copyright (c) 2026 Fraunhofer ISE
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ********************************************************************************/
+
+jar {
+    onlyIf { project.name != rootProject.name }
+    bnd('Bundle-Name': project.name,
+        'Export-Package': 'org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.*',
+        'Bundle-Vendor': 'Fraunhofer ISE', 'Bundle-SymbolicName': project.group + '.' + project.name)
+    destinationDirectory = new File("$rootDir/build/")
+}
+
+project.ext {
+    cfgPomName = "jEEBus.PowerLimitation.Abstract-ControllableSystem"
+    cfgPomDescription = "This library implements the common parts of the" +
+        " Controllable System Actors of the EEBus Use Cases Limitation of Power" +
+        " Consumption (LPC) and Limitation of Power Production (LPP)."
+}

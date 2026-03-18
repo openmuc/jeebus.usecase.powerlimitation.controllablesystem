@@ -1,0 +1,23 @@
+/********************************************************************************
+ * Copyright (c) 2026 Fraunhofer ISE
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ********************************************************************************/
+
+rootProject.name = 'powerlimitation.controllablesystem'
+
+include 'abstract-controllablesystem'
+project(':abstract-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/abstract-controllablesystem')
+
+include 'lpc-controllablesystem'
+project(':lpc-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/lpc-controllablesystem')
+
+include 'lpp-controllablesystem'
+project(':lpp-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/lpp-controllablesystem')
