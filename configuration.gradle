@@ -1,0 +1,11 @@
+project.ext {
+
+    destinationDir = new File("$rootDir/build/")
+
+    cfgShipVersion = "2.2.0-SNAPSHOT"
+    cfgSpineVersion = "4.1.0-SNAPSHOT"
+
+    cfgProjectGroup = 'org.openmuc.jeebus.usecase'
+    cfgVersion = '1.0.0-SNAPSHOT'
+
+}
