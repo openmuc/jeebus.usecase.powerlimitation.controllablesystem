@@ -1,20 +1,112 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 plugins {
-    id 'java'
+    id 'idea'
+    id 'java-library'
+    id 'biz.aQute.bnd.builder' version '6.4.0'
 }
 
-group = 'org.openmuc.jeebus.usecase'
-version = '1.0-SNAPSHOT'
+apply from: "configuration.gradle"
 
-repositories {
-    mavenCentral()
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+configure(allprojects) {
+
+    def tokenName = 'Private-Token'
+    def tokenValue = ''
+    if (project.hasProperty("gitLabPrivateToken")) {
+        tokenValue = gitLabPrivateToken
+    }
+    if (System.getenv("CI")) {
+        tokenName = 'Job-Token'
+        tokenValue = System.getenv("CI_JOB_TOKEN")
+    }
+    repositories {
+        // local dependencies as jars in the folder ./dependencies/
+        flatDir {
+            dirs rootDir.path + '/dependencies'
+        }
+        // central maven repository
+        mavenCentral()
+        // eebus group repository
+        maven {
+            url "https://gitlab.cc-asp.fraunhofer.de/api/v4/groups/18477/-/packages/maven"
+            credentials(HttpHeaderCredentials) {
+                name = tokenName
+                value = tokenValue
+            }
+            authentication {
+                header(HttpHeaderAuthentication)
+            }
+        }
+    }
 }
 
-test {
-    useJUnitPlatform()
+configure(subprojects) {
+
+    apply plugin: 'java-library'
+    apply plugin: 'biz.aQute.bnd.builder'
+
+    group = cfgProjectGroup
+    version = cfgVersion
+
+    dependencies {
+        // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+        implementation 'org.slf4j:slf4j-api:2.0.16'
+
+        implementation "org.openmuc.jeebus:ship:${cfgShipVersion}"
+        implementation "org.openmuc.jeebus:spine:${cfgSpineVersion}"
+
+        implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
+
+        // https://mvnrepository.com/artifact/org.jvnet.jaxb/jaxb-plugins-runtime
+        implementation 'org.jvnet.jaxb:jaxb-plugins-runtime:4.0.6'
+
+        testImplementation "org.openmuc.jeebus:spine-test-utilities:${cfgSpineVersion}"
+
+        // Use JUnit Jupiter for testing.
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+        // For exception testing
+        // https://mvnrepository.com/artifact/net.obvj/junit-utils
+        testImplementation 'net.obvj:junit-utils:1.8.0'
+
+        // https://mvnrepository.com/artifact/org.hamcrest/hamcrest
+        testImplementation 'org.hamcrest:hamcrest:2.1'
+
+        // https://mvnrepository.com/artifact/org.jmock/jmock-junit5
+        testImplementation 'org.jmock:jmock-junit5:2.13.1'
+
+        // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+        testRuntimeOnly 'ch.qos.logback:logback-classic:1.5.16'
+    }
+
+    jar {
+        onlyIf { project.name != rootProject.name }
+        destinationDirectory = destinationDir
+        bnd(
+            'Bundle-Name': project.name,
+            'Bundle-Vendor': 'Fraunhofer ISE', 'Bundle-SymbolicName': project.group + '.' + project.name,
+            'Export-Package': 'org.openmuc.jeebus.ship.api, org.openmuc.jeebus.ship.shipconnection'
+        )
+    }
+
+    test {
+        // this stops gradle from skipping up-to-date test tasks
+        outputs.upToDateWhen { false }
+
+        useJUnitPlatform()
+        testLogging.showStandardStreams = true
+    }
 }

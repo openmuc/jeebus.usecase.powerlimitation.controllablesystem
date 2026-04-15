@@ -1,1 +1,13 @@
 rootProject.name = 'powerlimitation.controllablesystem'
+
+include 'limitation-abstract-controllablesystem'
+project(':limitation-abstract-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/limitation-abstract-controllablesystem')
+
+include 'lpc-controllablesystem'
+project(':lpc-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/lpc-controllablesystem')
+
+include 'lpp-controllablesystem'
+project(':lpp-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/lpp-controllablesystem')
