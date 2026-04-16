@@ -1,5 +1,6 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+    <option name="AUTODETECT_INDENTS" value="false" />
     <option name="RIGHT_MARGIN" value="85" />
     <JSON>
       <option name="OBJECT_WRAPPING" value="5" />
@@ -11,6 +12,18 @@
       <option name="MULTI_CATCH_TYPES_WRAP" value="5" />
       <option name="JD_PARAM_DESCRIPTION_ON_NEW_LINE" value="true" />
     </JavaCodeStyleSettings>
+    <Properties>
+      <option name="SPACES_AROUND_KEY_VALUE_DELIMITER" value="true" />
+      <option name="KEEP_BLANK_LINES" value="true" />
+    </Properties>
+    <codeStyleSettings language="Declarative">
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="EditorConfig">
+      <option name="ALIGN_GROUP_FIELD_DECLARATIONS" value="true" />
+    </codeStyleSettings>
     <codeStyleSettings language="Groovy">
       <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
       <option name="BLOCK_COMMENT_AT_FIRST_COLUMN" value="false" />
@@ -25,6 +38,9 @@
     <codeStyleSettings language="HTML">
       <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
       <option name="BLOCK_COMMENT_AT_FIRST_COLUMN" value="false" />
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+      </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="JAVA">
       <option name="RIGHT_MARGIN" value="85" />
@@ -73,7 +89,6 @@
       <option name="DOWHILE_BRACE_FORCE" value="3" />
       <option name="WHILE_BRACE_FORCE" value="3" />
       <option name="FOR_BRACE_FORCE" value="3" />
-      <option name="WRAP_LONG_LINES" value="true" />
       <option name="PARAMETER_ANNOTATION_WRAP" value="2" />
       <option name="VARIABLE_ANNOTATION_WRAP" value="2" />
       <option name="ENUM_CONSTANTS_WRAP" value="2" />
@@ -82,14 +97,28 @@
       </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="JSON">
+      <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
       <indentOptions>
         <option name="CONTINUATION_INDENT_SIZE" value="2" />
         <option name="TAB_SIZE" value="2" />
       </indentOptions>
     </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <indentOptions>
+        <option name="INDENT_SIZE" value="3" />
+        <option name="CONTINUATION_INDENT_SIZE" value="3" />
+        <option name="TAB_SIZE" value="3" />
+      </indentOptions>
+    </codeStyleSettings>
+    <codeStyleSettings language="Properties">
+      <option name="ALIGN_GROUP_FIELD_DECLARATIONS" value="true" />
+    </codeStyleSettings>
     <codeStyleSettings language="XML">
       <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />
       <option name="BLOCK_COMMENT_AT_FIRST_COLUMN" value="false" />
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+      </indentOptions>
     </codeStyleSettings>
     <codeStyleSettings language="yaml">
       <option name="LINE_COMMENT_AT_FIRST_COLUMN" value="false" />

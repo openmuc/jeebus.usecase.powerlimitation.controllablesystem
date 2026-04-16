@@ -1,3 +1,13 @@
+/********************************************************************************
+ * Copyright (c) 2026 Fraunhofer ISE
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * https://www.eclipse.org/legal/epl-2.0.
+ *
+ * SPDX-License-Identifier: EPL-2.0
+ ********************************************************************************/
+
 project.ext {
 
     destinationDir = new File("$rootDir/build/")
@@ -7,5 +17,8 @@ project.ext {
 
     cfgProjectGroup = 'org.openmuc.jeebus.usecase'
     cfgVersion = '1.0.0-SNAPSHOT'
+
+    cfgPomLicenseName = "Eclipse Public License 2.0"
+    cfgPomLicenseUrl = "https://www.eclipse.org/legal/epl-2.0"
 
 }
