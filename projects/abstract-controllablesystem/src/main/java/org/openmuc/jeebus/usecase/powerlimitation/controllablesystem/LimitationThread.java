@@ -10,10 +10,16 @@
 
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem;
 
-import org.openmuc.jeebus.spine.api.*;
-import org.openmuc.jeebus.spine.xsd.v1.*;
+import org.openmuc.jeebus.spine.api.Device;
+import org.openmuc.jeebus.spine.api.Feature;
+import org.openmuc.jeebus.spine.api.RequestResult;
+import org.openmuc.jeebus.spine.api.UseCasePartner;
 import org.openmuc.jeebus.spine.spi.SpineSubscription;
 import org.openmuc.jeebus.spine.utils.SpineUtilities;
+import org.openmuc.jeebus.spine.xsd.v1.CmdType;
+import org.openmuc.jeebus.spine.xsd.v1.DeviceDiagnosisHeartbeatDataType;
+import org.openmuc.jeebus.spine.xsd.v1.FeatureAddressType;
+import org.openmuc.jeebus.spine.xsd.v1.FunctionEnumType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +29,8 @@ import java.util.concurrent.ExecutionException;
 import static org.openmuc.jeebus.spine.xsd.v1.FeatureTypeEnumType.DEVICE_DIAGNOSIS;
 
 public class LimitationThread extends Thread {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LimitationThread.class);
+    private static final Logger LOGGER
+        = LoggerFactory.getLogger(LimitationThread.class);
     private final LimitationUseCaseImpl useCase;
     private final Device device;
     private final SpineSubscription listener;
@@ -47,7 +54,7 @@ public class LimitationThread extends Thread {
     }
 
     @Override
-    public void run(){
+    public void run() {
         startPreScenarioCommunication();
         startInitialScenarioCommunication();
         startRuntimeScenarioCommunication();
@@ -55,7 +62,8 @@ public class LimitationThread extends Thread {
 
     private void startPreScenarioCommunication() {
         if (device == null) {
-            throw new IllegalStateException("Cannot subscribe when device not built yet");
+            throw new IllegalStateException(
+                "Cannot subscribe when device not built yet");
         }
         try {
             clientFeature.requestSubscription(
@@ -87,7 +95,10 @@ public class LimitationThread extends Thread {
             listener.messageReceived(deviceDiagnosisHeartbeatDataRequest.get());
         }
         catch (InterruptedException | ExecutionException e) {
-            LOGGER.error("There was an error in the initial scenario communication:", e);
+            LOGGER.error(
+                "There was an error in the initial scenario communication:",
+                e
+            );
         }
     }
 

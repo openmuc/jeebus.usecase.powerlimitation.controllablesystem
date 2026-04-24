@@ -10,25 +10,34 @@
 
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem;
 
-import org.openmuc.jeebus.spine.xsd.v1.*;
+import org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyNameEnumType;
+import org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyValueDescriptionDataType;
+import org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyValueTypeType;
+import org.openmuc.jeebus.spine.xsd.v1.EnergyDirectionEnumType;
+
+import static org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyNameEnumType.*;
 
 public class FailsafeKeyValueDescriptions {
 
     public static DeviceConfigurationKeyValueDescriptionDataType createFailsafeDurationDescription() {
         DeviceConfigurationKeyValueDescriptionDataType description =
             new DeviceConfigurationKeyValueDescriptionDataType();
-        description.setKeyName(DeviceConfigurationKeyNameEnumType.FAILSAFE_DURATION_MINIMUM.value());
+        description.setKeyName(FAILSAFE_DURATION_MINIMUM.value());
         description.setValueType(DeviceConfigurationKeyValueTypeType.DURATION);
         return description;
     }
 
-    public static DeviceConfigurationKeyValueDescriptionDataType createFailsafeLimitDescription(EnergyDirectionEnumType direction) {
-        DeviceConfigurationKeyNameEnumType keyName = direction == EnergyDirectionEnumType.CONSUME
-                ? DeviceConfigurationKeyNameEnumType.FAILSAFE_CONSUMPTION_ACTIVE_POWER_LIMIT
-                : DeviceConfigurationKeyNameEnumType.FAILSAFE_PRODUCTION_ACTIVE_POWER_LIMIT;
+    public static DeviceConfigurationKeyValueDescriptionDataType createFailsafeLimitDescription(
+        EnergyDirectionEnumType direction
+    ) {
+        DeviceConfigurationKeyNameEnumType keyName = direction
+            == EnergyDirectionEnumType.CONSUME ?
+            FAILSAFE_CONSUMPTION_ACTIVE_POWER_LIMIT :
+            FAILSAFE_PRODUCTION_ACTIVE_POWER_LIMIT;
+
         return new DeviceConfigurationKeyValueDescriptionDataType()
-                .withKeyName(keyName.value())
-                .withUnit("W")
-                .withValueType(DeviceConfigurationKeyValueTypeType.SCALED_NUMBER);
+            .withKeyName(keyName.value())
+            .withUnit("W")
+            .withValueType(DeviceConfigurationKeyValueTypeType.SCALED_NUMBER);
     }
 }

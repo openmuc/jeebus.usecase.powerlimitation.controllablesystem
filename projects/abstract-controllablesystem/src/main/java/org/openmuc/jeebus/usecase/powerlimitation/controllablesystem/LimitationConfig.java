@@ -32,11 +32,12 @@ public interface LimitationConfig {
     ScaledNumberWrapper getNominalMax();
 
     /**
-     * Our default value for failsafe duration: two hours (minimum allowed by the spec).
+     * Our default value for failsafe duration: two hours (minimum allowed by the
+     * spec).
      */
     String DEFAULT_FAILSAFE_DURATION_MIN = "PT2H";
     /**
      * Our default value for power limits: 12 MW
      */
-    ScaledNumberWrapper DEFAULT_BIG_POWER = new ScaledNumberWrapper(12,6);
+    ScaledNumberWrapper DEFAULT_BIG_POWER = new ScaledNumberWrapper(12, 6);
 }

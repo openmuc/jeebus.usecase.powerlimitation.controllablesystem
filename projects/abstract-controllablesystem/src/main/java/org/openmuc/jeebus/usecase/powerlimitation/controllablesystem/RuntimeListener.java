@@ -27,7 +27,10 @@ public class RuntimeListener implements FailsafeListener, SpineSubscription {
     private final LoadControlLimit loadControlLimit;
     private List<DeviceDiagnosisHeartbeatDataType> receivedHeartbeats;
 
-    public RuntimeListener(StateMachine stateMachine, LoadControlLimit loadControlLimit) {
+    public RuntimeListener(
+        StateMachine stateMachine,
+        LoadControlLimit loadControlLimit
+    ) {
         this.stateMachine = stateMachine;
         this.loadControlLimit = loadControlLimit;
     }
@@ -36,7 +39,9 @@ public class RuntimeListener implements FailsafeListener, SpineSubscription {
     public void messageReceived(RequestResult notification) {
         stateMachine.receiveHeartbeat(notification);
         if (receivedHeartbeats != null) {
-            receivedHeartbeats.add(notification.getCmd().getDeviceDiagnosisHeartbeatData());
+            receivedHeartbeats.add(notification
+                .getCmd()
+                .getDeviceDiagnosisHeartbeatData());
         }
     }
 
@@ -80,7 +85,6 @@ public class RuntimeListener implements FailsafeListener, SpineSubscription {
     RunningKeyValue.WriteDataListener getFailsafeLimitListener(RunningKeyValue keyValue) {
         return (_data, _updateType) -> updateFailsafeLimit(keyValue);
     }
-
 
     RunningKeyValue.WriteDataListener getFailsafeDurationListener(RunningKeyValue keyValue) {
         return (_data, _updateType) -> updateFailsafeDuration(keyValue);

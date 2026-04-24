@@ -11,9 +11,9 @@
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states;
 
 import org.openmuc.jeebus.spine.api.RequestResult;
-import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.ActiveLimit;
 import org.openmuc.jeebus.spine.utils.SpineUtilities;
 import org.openmuc.jeebus.spine.utils.features.deviceconfiguration.KeyValue;
+import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.ActiveLimit;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.LoadControlLimit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +27,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 
 import static java.util.concurrent.TimeUnit.*;
-import static org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states.State.*;
 import static org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states.Event.*;
+import static org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states.State.FAILSAFE;
+import static org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states.State.INIT;
 
 public class StateMachine {
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
@@ -49,7 +50,11 @@ public class StateMachine {
         Duration failsafeDuration,
         KeyValue failsafeLimit
     ) {
-        this(Executors.newSingleThreadScheduledExecutor(), failsafeDuration, failsafeLimit);
+        this(
+            Executors.newSingleThreadScheduledExecutor(),
+            failsafeDuration,
+            failsafeLimit
+        );
     }
 
     StateMachine(
@@ -68,8 +73,8 @@ public class StateMachine {
     private void transition(Event trigger, State from, State to) {
         if (
             to != null
-            && from != to
-            && currentState == from
+                && from != to
+                && currentState == from
         ) {
             if (Objects.equals(from, INIT)) {
                 initExpiration.cancel(false);
@@ -114,7 +119,7 @@ public class StateMachine {
         );
     }
 
-    private void scheduleFailsafeExpiration(){
+    private void scheduleFailsafeExpiration() {
         executor.schedule(
             () -> {
                 transitionToNextState(FAILSAFE_TIMEOUT);
@@ -127,7 +132,8 @@ public class StateMachine {
 
     public boolean wasHeartbeatReceived() {
         // If a heartbeat was received, there is an active expiration schedule for it.
-        return Objects.nonNull(this.heartbeatExpiration) && !heartbeatExpiration.isDone();
+        return Objects.nonNull(this.heartbeatExpiration)
+            && !heartbeatExpiration.isDone();
     }
 
     public void receiveHeartbeat(RequestResult notification) {
@@ -136,7 +142,10 @@ public class StateMachine {
         }
         heartbeatExpiration = scheduleHeartbeatTimeout();
 
-        LOGGER.debug("received heartbeat from {}", notification.getSenderAddress().getDevice());
+        LOGGER.debug(
+            "received heartbeat from {}",
+            notification.getSenderAddress().getDevice()
+        );
     }
 
     public void updateLimit(LoadControlLimit limit) {

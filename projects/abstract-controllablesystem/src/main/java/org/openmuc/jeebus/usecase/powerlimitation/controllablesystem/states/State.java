@@ -11,8 +11,7 @@
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states;
 
 /**
- * L’État, c’est moi!
- * This immutable enum only holds static logic.
+ * L’État, c’est moi! This immutable enum only holds static logic.
  */
 public enum State {
     /**
@@ -41,8 +40,8 @@ public enum State {
     },
     /**
      * Controllable System is not limited, but still controlled by Actor Energy Guard
-     * (unlike state "unlimited/autonomous").
-     * The Active Power Consumption Limit SHALL be deactivated ([LPC-009/2]).
+     * (unlike state "unlimited/autonomous"). The Active Power Consumption Limit
+     * SHALL be deactivated ([LPC-009/2]).
      */
     CONTROLLED {
         @Override
@@ -65,9 +64,9 @@ public enum State {
         }
     },
     /**
-     * Controllable System is in a limited state (controlled by the Actor Energy Guard) where a
-     * limited amount of power is consumed. The Active Power Consumption Limit SHALL be activated
-     * ([LPC-009/1]).
+     * Controllable System is in a limited state (controlled by the Actor Energy
+     * Guard) where a limited amount of power is consumed. The Active Power
+     * Consumption Limit SHALL be activated ([LPC-009/1]).
      */
     LIMITED {
         @Override
@@ -90,9 +89,9 @@ public enum State {
         }
     },
     /**
-     * Controllable System is in "failsafe state" (not controlled by the Energy Guard) where it
-     * is limited by the failsafe limit. The Active Power Consumption Limit SHALL be deactivated ([LPC-
-     * 009/2]).
+     * Controllable System is in "failsafe state" (not controlled by the Energy
+     * Guard) where it is limited by the failsafe limit. The Active Power Consumption
+     * Limit SHALL be deactivated ([LPC- 009/2]).
      */
     FAILSAFE {
         @Override
@@ -115,8 +114,8 @@ public enum State {
     },
     /**
      * Controllable System is not limited and consumes power as if there would be no
-     * external power limitation available.
-     * The Active Power Consumption Limit SHALL be deactivated ([LPC-009/2])
+     * external power limitation available. The Active Power Consumption Limit SHALL
+     * be deactivated ([LPC-009/2])
      */
     AUTONOMOUS {
         @Override

@@ -12,7 +12,7 @@ package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.openmuc.jeebus.spine.api.UseCasePartner;
 import org.openmuc.jeebus.spine.xsd.v1.*;
 
@@ -55,7 +55,8 @@ class KeoCompatabilityBindingListenerTest {
             new NodeManagementUseCaseDataType.UseCaseInformation()
                 .withAddress(new FeatureAddressType()
                     .withDevice(TEST_DEVICE)
-                    .withEntity(3L)))
+                    .withEntity(3L))
+        )
     );
 
     @Test

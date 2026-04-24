@@ -110,10 +110,10 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
 
     private static final Set<CommunicationPartnerFeatureRequirement>
         FEATURE_FUNCTION_REQUIREMENTS = Set.of(
-            new CommunicationPartnerFeatureRequirement(
-                DEVICE_DIAGNOSIS,
-                Map.of(DEVICE_DIAGNOSIS_HEARTBEAT_DATA, Map.of(3L, MANDATORY))
-    ));
+        new CommunicationPartnerFeatureRequirement(
+            DEVICE_DIAGNOSIS,
+            Map.of(DEVICE_DIAGNOSIS_HEARTBEAT_DATA, Map.of(3L, MANDATORY))
+        ));
 
     private final KeoCompatabilityBindingListener bindingListener;
     private final Duration initialFailsafeDuration;
@@ -480,15 +480,20 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
                     "Received write request for Key Value with an invalid duration."
                 );
             }
-        } else if (Objects.equals(update.getKeyId(), getFailsafeLimit().getKeyId())
+        }
+        else if (
+            Objects.equals(update.getKeyId(), getFailsafeLimit().getKeyId())
             && update.getValue().getScaledNumber() != null
         ) {
 
             if (!stateMachine.canUpdateFailsafeValues()) {
                 throw getStateMachineException();
-            } else if (update.getValue().getScaledNumber().getNumber() == null
+            }
+            else if (
+                update.getValue().getScaledNumber().getNumber() == null
                 || update.getValue().getScaledNumber().getScale() == null
-                && update.getValue().getScaledNumber().getNumber() < 0) {
+                && update.getValue().getScaledNumber().getNumber() < 0
+            ) {
 
                 throw new SpineException(
                     Error.COMMAND_REJECTED,

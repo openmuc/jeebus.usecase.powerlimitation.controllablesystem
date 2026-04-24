@@ -11,8 +11,10 @@
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem;
 
 import org.openmuc.jeebus.spine.utils.datatypes.ScaledNumberWrapper;
-import org.openmuc.jeebus.spine.xsd.v1.*;
 import org.openmuc.jeebus.spine.utils.features.deviceconfiguration.KeyValue;
+import org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyValueDescriptionDataType;
+import org.openmuc.jeebus.spine.xsd.v1.LoadControlLimitDataType;
+import org.openmuc.jeebus.spine.xsd.v1.TimePeriodType;
 
 import javax.xml.datatype.Duration;
 import java.util.Objects;
@@ -22,9 +24,9 @@ import static org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyNameEnumType
 import static org.openmuc.jeebus.spine.xsd.v1.DeviceConfigurationKeyNameEnumType.FAILSAFE_PRODUCTION_ACTIVE_POWER_LIMIT;
 
 /**
- * This is an immutable representation of an active limit.
- * It consists of a unit, an optional duration and a scaled number to be interpreted
- * with the following formular: number * 10^scale
+ * This is an immutable representation of an active limit. It consists of a unit, an
+ * optional duration and a scaled number to be interpreted with the following
+ * formular: number * 10^scale
  */
 public class ActiveLimit {
 
@@ -41,8 +43,8 @@ public class ActiveLimit {
         if (
             !Objects.equals(
                 FAILSAFE_CONSUMPTION_ACTIVE_POWER_LIMIT.value(),
-                description.getKeyName())
-            && !Objects.equals(
+                description.getKeyName()
+            ) && !Objects.equals(
                 FAILSAFE_PRODUCTION_ACTIVE_POWER_LIMIT.value(),
                 description.getKeyName()
         )) {

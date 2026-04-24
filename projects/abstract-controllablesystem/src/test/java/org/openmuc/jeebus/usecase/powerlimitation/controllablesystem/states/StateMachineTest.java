@@ -10,27 +10,24 @@
 
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states;
 
+import org.jmock.lib.concurrent.DeterministicScheduler;
+import org.junit.jupiter.api.Test;
 import org.openmuc.jeebus.spine.api.DataValidationException;
 import org.openmuc.jeebus.spine.api.Feature;
-import org.openmuc.jeebus.spine.impl.EntityBuilder;
 import org.openmuc.jeebus.spine.api.FeatureWrapper;
+import org.openmuc.jeebus.spine.api.RequestResult;
+import org.openmuc.jeebus.spine.impl.EntityBuilder;
 import org.openmuc.jeebus.spine.utils.features.deviceconfiguration.*;
 import org.openmuc.jeebus.spine.utils.features.loadcontrol.LimitDescriptionFunction;
 import org.openmuc.jeebus.spine.utils.features.loadcontrol.LimitListDataFunction;
 import org.openmuc.jeebus.spine.utils.features.loadcontrol.LoadControlFeature;
 import org.openmuc.jeebus.spine.xsd.v1.*;
-import org.jmock.lib.concurrent.DeterministicScheduler;
-import org.junit.jupiter.api.Test;
-import org.openmuc.jeebus.spine.api.RequestResult;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.FailsafeKeyValueDescriptions;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.LoadControlLimit;
 
+import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.Duration;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -52,7 +49,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testInitLimit() throws DatatypeConfigurationException, DataValidationException {
+    public void testInitLimit() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 0
         StateMachine machine = getStateMachine();
         assertThat(machine.getState(), is(INIT));
@@ -63,7 +61,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testInitToControlled() throws DatatypeConfigurationException, DataValidationException {
+    public void testInitToControlled() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 1
         StateMachine machine = getStateMachine();
 
@@ -76,7 +75,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testInitToLimited() throws DatatypeConfigurationException, DataValidationException {
+    public void testInitToLimited() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 2
         StateMachine machine = getStateMachine();
 
@@ -89,7 +89,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testInitToAutonomous() throws DatatypeConfigurationException, DataValidationException {
+    public void testInitToAutonomous() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 3
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -103,7 +104,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testControlledToLimited() throws DatatypeConfigurationException, DataValidationException {
+    public void testControlledToLimited() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 4
         StateMachine machine = getStateMachine();
 
@@ -119,7 +121,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testControlledToFailsafe() throws DatatypeConfigurationException, DataValidationException {
+    public void testControlledToFailsafe() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 5
         DeterministicScheduler scheduler = new DeterministicScheduler();
 
@@ -140,7 +143,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testLimitedToControlled() throws DatatypeConfigurationException, DataValidationException {
+    public void testLimitedToControlled() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 6
         StateMachine machine = getStateMachine();
 
@@ -156,7 +160,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testLimitedToFailsafe() throws DatatypeConfigurationException, DataValidationException {
+    public void testLimitedToFailsafe() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 7
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -176,7 +181,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testFailsafeToControlled() throws DatatypeConfigurationException, DataValidationException {
+    public void testFailsafeToControlled() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 8
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -199,7 +205,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testFailsafeToLimited() throws DatatypeConfigurationException, DataValidationException {
+    public void testFailsafeToLimited() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 9
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -224,7 +231,7 @@ class StateMachineTest {
 
     @Test
     public void testFailsafeToAutonomousThroughExpiration()
-            throws DatatypeConfigurationException, DataValidationException {
+        throws DatatypeConfigurationException, DataValidationException {
         // Transition 10
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -248,7 +255,7 @@ class StateMachineTest {
 
     @Test
     public void testFailsafeToAutonomousThroughHeartbeat()
-            throws DatatypeConfigurationException, DataValidationException {
+        throws DatatypeConfigurationException, DataValidationException {
         // Transition 10
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -270,7 +277,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testAutonomousToControlled() throws DatatypeConfigurationException, DataValidationException {
+    public void testAutonomousToControlled() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 11
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -290,7 +298,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testAutonomousToLimited() throws DatatypeConfigurationException, DataValidationException {
+    public void testAutonomousToLimited() throws DatatypeConfigurationException,
+        DataValidationException {
         // Transition 12
         DeterministicScheduler scheduler = new DeterministicScheduler();
         StateMachine machine = getStateMachine(scheduler);
@@ -310,7 +319,8 @@ class StateMachineTest {
     }
 
     @Test
-    public void testSetLimitsWithinControlled() throws DatatypeConfigurationException, DataValidationException {
+    public void testSetLimitsWithinControlled() throws
+        DatatypeConfigurationException, DataValidationException {
         StateMachine machine = getStateMachine();
 
         machine.receiveHeartbeat(NOTIFICATION);
@@ -346,7 +356,8 @@ class StateMachineTest {
         }
     };
 
-    private static LoadControlLimit getLimit(boolean isActive) throws DataValidationException {
+    private static LoadControlLimit getLimit(boolean isActive) throws
+        DataValidationException {
         LoadControlLimit loadControlLimit = new LoadControlLimit(
             loadControlFeature,
             new ScaledNumberType(10L, (short) 0),

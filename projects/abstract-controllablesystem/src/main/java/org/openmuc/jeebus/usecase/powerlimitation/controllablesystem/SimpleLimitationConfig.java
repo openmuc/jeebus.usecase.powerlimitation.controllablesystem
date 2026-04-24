@@ -45,7 +45,12 @@ public class SimpleLimitationConfig implements LimitationConfig {
     }
 
     public SimpleLimitationConfig withFailsafeDurationMin(String failsafeDurationMin) {
-        return new SimpleLimitationConfig(failsafeDurationMin, failsafeLimit, loadControlLimit, nominalMax);
+        return new SimpleLimitationConfig(
+            failsafeDurationMin,
+            failsafeLimit,
+            loadControlLimit,
+            nominalMax
+        );
     }
 
     @Override
@@ -54,7 +59,12 @@ public class SimpleLimitationConfig implements LimitationConfig {
     }
 
     public SimpleLimitationConfig withFailsafeLimit(ScaledNumberWrapper failsafeLimit) {
-        return new SimpleLimitationConfig(failsafeDurationMin, failsafeLimit, loadControlLimit, nominalMax);
+        return new SimpleLimitationConfig(
+            failsafeDurationMin,
+            failsafeLimit,
+            loadControlLimit,
+            nominalMax
+        );
     }
 
     @Override
@@ -62,8 +72,13 @@ public class SimpleLimitationConfig implements LimitationConfig {
         return loadControlLimit;
     }
 
-    public  SimpleLimitationConfig withLoadControlLimit(ScaledNumberWrapper loadControlLimit) {
-        return new SimpleLimitationConfig(failsafeDurationMin, failsafeLimit, loadControlLimit, nominalMax);
+    public SimpleLimitationConfig withLoadControlLimit(ScaledNumberWrapper loadControlLimit) {
+        return new SimpleLimitationConfig(
+            failsafeDurationMin,
+            failsafeLimit,
+            loadControlLimit,
+            nominalMax
+        );
     }
 
     @Override
@@ -72,6 +87,11 @@ public class SimpleLimitationConfig implements LimitationConfig {
     }
 
     public SimpleLimitationConfig withNominalMax(ScaledNumberWrapper nominalMax) {
-        return new SimpleLimitationConfig(failsafeDurationMin, failsafeLimit, loadControlLimit, nominalMax);
+        return new SimpleLimitationConfig(
+            failsafeDurationMin,
+            failsafeLimit,
+            loadControlLimit,
+            nominalMax
+        );
     }
 }

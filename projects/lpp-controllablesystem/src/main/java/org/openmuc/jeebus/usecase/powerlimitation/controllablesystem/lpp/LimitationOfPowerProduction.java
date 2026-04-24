@@ -23,7 +23,8 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Objects;
 
-import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.*;
+import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.CONTRACTUAL_PRODUCTION_NOMINAL_MAX;
+import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.POWER_PRODUCTION_NOMINAL_MAX;
 
 public class LimitationOfPowerProduction extends LimitationUseCaseImpl {
     private static final List<Long> SCENARIO_SUPPORT_LIST = List.of(
@@ -36,7 +37,6 @@ public class LimitationOfPowerProduction extends LimitationUseCaseImpl {
         // Scenario 4 - Constraints
         4L
     );
-
 
     private static final SimpleLimitationConfig DEFAULT_CONFIG
         = new SimpleLimitationConfig(
@@ -78,7 +78,7 @@ public class LimitationOfPowerProduction extends LimitationUseCaseImpl {
             .map(ScaledNumberWrapper::new)
             .allMatch(scaledNumber ->
                 scaledNumber.toDouble() <= 0
-        )) {
+            )) {
             throw new DataValidationException(
                 "LPP LoadControlLimits SHALL be <= 0."
             );

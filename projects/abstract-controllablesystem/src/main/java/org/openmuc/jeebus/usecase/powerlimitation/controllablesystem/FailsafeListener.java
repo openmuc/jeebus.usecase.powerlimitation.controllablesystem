@@ -15,6 +15,7 @@ import org.openmuc.jeebus.spine.utils.features.deviceconfiguration.KeyValue;
 public interface FailsafeListener {
 
     void updateFailsafeDuration(KeyValue duration);
+
     void updateFailsafeLimit(KeyValue failsafeLimit);
 
     default void updateKeyValue(KeyValue keyValue) {
