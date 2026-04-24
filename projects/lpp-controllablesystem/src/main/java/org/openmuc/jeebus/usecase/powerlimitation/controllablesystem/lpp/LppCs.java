@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: EPL-2.0
  ********************************************************************************/
 
-package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.lpc;
+package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.lpp;
 
 import org.openmuc.jeebus.spine.api.DataValidationException;
 import org.openmuc.jeebus.spine.utils.datatypes.ScaledNumberWrapper;
@@ -23,10 +23,10 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Objects;
 
-import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.CONTRACTUAL_CONSUMPTION_NOMINAL_MAX;
-import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.POWER_CONSUMPTION_NOMINAL_MAX;
+import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.CONTRACTUAL_PRODUCTION_NOMINAL_MAX;
+import static org.openmuc.jeebus.spine.xsd.v1.ElectricalConnectionCharacteristicTypeEnumType.POWER_PRODUCTION_NOMINAL_MAX;
 
-public class LimitationOfPowerConsumption extends LimitationUseCaseImpl {
+public class LppCs extends LimitationUseCaseImpl {
     private static final List<Long> SCENARIO_SUPPORT_LIST = List.of(
         // Scenario 1 - Control active power consumption limit
         1L,
@@ -42,19 +42,23 @@ public class LimitationOfPowerConsumption extends LimitationUseCaseImpl {
         = new SimpleLimitationConfig(
         LimitationConfig.DEFAULT_FAILSAFE_DURATION_MIN,
         LimitationConfig.DEFAULT_BIG_POWER,
-        LimitationConfig.DEFAULT_BIG_POWER,
+        // we don't have a negate() method, so we have to do this instead...
+        new ScaledNumberWrapper(
+            (Long) (-LimitationConfig.DEFAULT_BIG_POWER.getNumber()),
+            LimitationConfig.DEFAULT_BIG_POWER.getScale()
+        ),
         LimitationConfig.DEFAULT_BIG_POWER
     );
 
-    public LimitationOfPowerConsumption(
+    public LppCs(
         LimitationConfig limitationConfig
     ) {
         super(
-            "limitationOfPowerConsumption",
+            "limitationOfPowerProduction",
             "1.0.0",
             SCENARIO_SUPPORT_LIST,
             limitationConfig,
-            EnergyDirectionEnumType.CONSUME,
+            EnergyDirectionEnumType.PRODUCE,
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass())
         );
     }
@@ -73,10 +77,10 @@ public class LimitationOfPowerConsumption extends LimitationUseCaseImpl {
             .filter(Objects::nonNull)
             .map(ScaledNumberWrapper::new)
             .allMatch(scaledNumber ->
-                scaledNumber.toDouble() >= 0
+                scaledNumber.toDouble() <= 0
             )) {
             throw new DataValidationException(
-                "LPC LoadControlLimits SHALL be >= 0."
+                "LPP LoadControlLimits SHALL be <= 0."
             );
         }
     }
@@ -84,8 +88,8 @@ public class LimitationOfPowerConsumption extends LimitationUseCaseImpl {
     @Override
     public String getCharacteristicType() {
         return isEms()
-            ? CONTRACTUAL_CONSUMPTION_NOMINAL_MAX.value()
-            : POWER_CONSUMPTION_NOMINAL_MAX.value();
+            ? CONTRACTUAL_PRODUCTION_NOMINAL_MAX.value()
+            : POWER_PRODUCTION_NOMINAL_MAX.value();
     }
 
     /**

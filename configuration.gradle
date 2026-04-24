@@ -30,7 +30,11 @@ project.ext {
 
     cfgSnapshotPattern = ~/\d+\.\d+\.\d+.*SNAPSHOT.*/
 
-    distributionProjects = subprojects
+    distributionProjects = subprojects.findAll {
+        it.getPath() == ":abstract-controllablesystem"
+            || it.getPath() == ":demo-controllablesystem"
+            || it.getPath() == ":lpp-controllablesystem"
+    }
 
     if (cfgVersion.matches(cfgSnapshotPattern)) {
         repositoryProjects = subprojects

@@ -21,3 +21,6 @@ project(':lpc-controllablesystem').projectDir
 include 'lpp-controllablesystem'
 project(':lpp-controllablesystem').projectDir
     = new File(settingsDir, 'projects/lpp-controllablesystem')
+
+include 'demo'
+project(':demo').projectDir = new File(settingsDir, 'projects/demo')
