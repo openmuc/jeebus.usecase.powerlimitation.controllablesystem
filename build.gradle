@@ -19,6 +19,18 @@ plugins {
     id 'idea'
     id 'java-library'
     id 'biz.aQute.bnd.builder' version '6.4.0'
+    // https://github.com/vanniktech/gradle-maven-publish-plugin
+    id "com.vanniktech.maven.publish" version "0.35.0"
+}
+
+def internalFolder = new File("$projectDir/gradle/develop/")
+
+if (internalFolder.exists()) {
+    internalFolder.eachFile { file ->
+        if (file.name.endsWith('.gradle')) {
+            apply from: file.path
+        }
+    }
 }
 
 apply from: "configuration.gradle"
@@ -108,7 +120,7 @@ configure(subprojects) {
         bnd(
             'Bundle-Name': project.name,
             'Bundle-Vendor': 'Fraunhofer ISE', 'Bundle-SymbolicName': project.group + '.' + project.name,
-            'Export-Package': 'org.openmuc.jeebus.ship.api, org.openmuc.jeebus.ship.shipconnection'
+            'Export-Package': '*'
         )
     }
 

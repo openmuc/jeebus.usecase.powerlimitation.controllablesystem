@@ -10,9 +10,9 @@
 
 rootProject.name = 'powerlimitation.controllablesystem'
 
-include 'limitation-abstract-controllablesystem'
-project(':limitation-abstract-controllablesystem').projectDir
-    = new File(settingsDir, 'projects/limitation-abstract-controllablesystem')
+include 'abstract-controllablesystem'
+project(':abstract-controllablesystem').projectDir
+    = new File(settingsDir, 'projects/abstract-controllablesystem')
 
 include 'lpc-controllablesystem'
 project(':lpc-controllablesystem').projectDir

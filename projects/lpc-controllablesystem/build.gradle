@@ -10,5 +10,19 @@
  ********************************************************************************/
 
 dependencies {
-    implementation project(':limitation-abstract-controllablesystem')
+    implementation project(':abstract-controllablesystem')
+}
+
+jar {
+    onlyIf { project.name != rootProject.name }
+    bnd('Bundle-Name': project.name,
+        'Export-Package': 'org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.lpc.*',
+        'Bundle-Vendor': 'Fraunhofer ISE', 'Bundle-SymbolicName': project.group + '.' + project.name)
+    destinationDirectory = new File("$rootDir/build/")
+}
+
+project.ext {
+    cfgPomName = "jEEBus.PowerLimitation.LPC-ControllableSystem"
+    cfgPomDescription = "This library implements the Controllable System Actor of" +
+        " the EEBus Use Case Limitation of Power Consumption (LPC)."
 }

@@ -1,4 +1,3 @@
-
 /********************************************************************************
  * Copyright (c) 2026 Fraunhofer ISE
  *
@@ -9,20 +8,17 @@
  * SPDX-License-Identifier: EPL-2.0
  ********************************************************************************/
 
-dependencies {
-    implementation project(':abstract-controllablesystem')
-}
-
 jar {
     onlyIf { project.name != rootProject.name }
     bnd('Bundle-Name': project.name,
-        'Export-Package': 'org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.lpp.*',
+        'Export-Package': 'org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.*',
         'Bundle-Vendor': 'Fraunhofer ISE', 'Bundle-SymbolicName': project.group + '.' + project.name)
     destinationDirectory = new File("$rootDir/build/")
 }
 
 project.ext {
-    cfgPomName = "jEEBus.PowerLimitation.LPP-ControllableSystem"
-    cfgPomDescription = "This library implements the Controllable System Actor of" +
-        " the EEBus Use Case Limitation of Power Production (LPP)."
+    cfgPomName = "jEEBus.PowerLimitation.Abstract-ControllableSystem"
+    cfgPomDescription = "This library implements the common parts of the" +
+        " Controllable System Actors of the EEBus Use Cases Limitation of Power" +
+        " Consumption (LPC) and Limitation of Power Production (LPP)."
 }

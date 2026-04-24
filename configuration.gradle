@@ -15,10 +15,28 @@ project.ext {
     cfgShipVersion = "2.2.0"
     cfgSpineVersion = "4.0.0"
 
-    cfgProjectGroup = 'org.openmuc.jeebus.usecase'
+    cfgProjectGroup = 'org.openmuc.jeebus.usecase.powerlimitation'
     cfgVersion = '1.0.0-SNAPSHOT'
+
+    // Release settings
+
+    cfgGitLabProjectId = "13832"
+
+    cfgPomProjectUrl = "https://www.openmuc.org/eebus/"
+    cfgPomScmUrl = "https://github.com/openmuc/jeebus.usecase.powerlimitation.controllablesystem"
 
     cfgPomLicenseName = "Eclipse Public License 2.0"
     cfgPomLicenseUrl = "https://www.eclipse.org/legal/epl-2.0"
 
+    cfgSnapshotPattern = ~/\d+\.\d+\.\d+.*SNAPSHOT.*/
+
+    distributionProjects = subprojects
+
+    if (cfgVersion.matches(cfgSnapshotPattern)) {
+        repositoryProjects = subprojects
+        isReleaseVersion = false
+    } else {
+        repositoryProjects = distributionProjects
+        isReleaseVersion = true
+    }
 }
