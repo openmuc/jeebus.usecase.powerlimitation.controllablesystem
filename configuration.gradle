@@ -16,7 +16,7 @@ project.ext {
     cfgSpineVersion = "4.0.0"
 
     cfgProjectGroup = 'org.openmuc.jeebus.usecase.powerlimitation'
-    cfgVersion = '1.0.0-SNAPSHOT'
+    cfgVersion = '1.0.0'
 
     // Release settings
 
@@ -32,7 +32,7 @@ project.ext {
 
     distributionProjects = subprojects.findAll {
         it.getPath() == ":abstract-controllablesystem"
-            || it.getPath() == ":demo-controllablesystem"
+            || it.getPath() == ":lpc-controllablesystem"
             || it.getPath() == ":lpp-controllablesystem"
     }
 

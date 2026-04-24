@@ -1,5 +1,8 @@
 # jEEBus.PowerLimitation.ControllableSystem
 
+[![maven-central](https://img.shields.io/maven-central/v/org.openmuc.jeebus.usecase.powerlimitation/abstract-controllablesystem?logo=apachemaven)](https://central.sonatype.com/namespace/org.openmuc.jeebus.usecase.powerlimitation)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/openmuc/jeebus.usecase.powerlimitation.controllablesystem)
+
 This repository contains Java implementations of the Controllable System (CS) Actors
 of the following EEBus Use Cases:
 
