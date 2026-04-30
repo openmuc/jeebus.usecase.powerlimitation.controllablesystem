@@ -47,6 +47,11 @@ There are four subprojects in the `projects` folder:
 - `demo` contains a minimal example application showing how jEEBus can be configured
    and used.
 
+You can start the `demo` application by simply running
+```bash
+./gradlew run
+```
+
 ## Quick Start
 
 What sets our implementation apart from other EEBus stacks is that we also

@@ -2,7 +2,7 @@
 # KDE folder settings
 .directory
 
-/logs/
+**/logs/
 
 .gradle
 build/
