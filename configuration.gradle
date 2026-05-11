@@ -16,7 +16,7 @@ project.ext {
     cfgSpineVersion = "4.0.0"
 
     cfgProjectGroup = 'org.openmuc.jeebus.usecase.powerlimitation'
-    cfgVersion = '1.0.0'
+    cfgVersion = '1.0.1-SNAPSHOT'
 
     // Release settings
 

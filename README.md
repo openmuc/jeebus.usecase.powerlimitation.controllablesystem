@@ -51,6 +51,10 @@ You can start the `demo` application by simply running
 ```bash
 ./gradlew run
 ```
+or pass the desired IP address, port and trusted SKIs like so:
+```bash
+./gradlew run --args="localhost 8080 e268fabdcbb076e13d5f2ea7df6b2d7c382a967f"
+```
 
 ## Quick Start
 

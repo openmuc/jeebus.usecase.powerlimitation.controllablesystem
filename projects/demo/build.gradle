@@ -15,6 +15,7 @@ plugins {
 dependencies {
     implementation project(':abstract-controllablesystem')
     implementation project(':lpc-controllablesystem')
+    implementation project(':lpp-controllablesystem')
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
     implementation 'ch.qos.logback:logback-classic:1.5.32'

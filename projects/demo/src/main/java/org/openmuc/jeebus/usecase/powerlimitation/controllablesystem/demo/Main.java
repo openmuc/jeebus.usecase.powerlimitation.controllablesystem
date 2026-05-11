@@ -20,12 +20,16 @@ import org.openmuc.jeebus.spine.xsd.v1.EntityTypeEnumType;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.ActiveLimit;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.SimpleLimitationConfig;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.lpc.LpcCs;
+import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.lpp.LppCs;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states.Event;
 import org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.states.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 import static org.openmuc.jeebus.shipspine.ShipCommunication.ConnectClientsTo.TRUSTED;
 
@@ -34,11 +38,17 @@ public class Main {
         MethodHandles.lookup().lookupClass()
     );
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
+        LOG.info(
+            "Starting controllable system demo with args {}",
+            Arrays.toString(args)
+        );
+
+        List<String> argList = Arrays.asList(args);
 
         ShipNodeConfiguration shipConfig = new ShipNodeConfiguration(
-            "localhost",
-            8080,
+            argList.isEmpty() ? "0.0.0.0" : argList.get(0),
+            argList.size() >= 2 ? Integer.parseInt(argList.get(1)) : 8080,
             "/ship/",
             true,
             "EXAMPLEBRAND-EEB01M3EU-001122334455",
@@ -54,26 +64,51 @@ public class Main {
 
         ShipCommunication shipCommunication = new ShipCommunication(
             shipConfig
-        ).withTrustedSkis(
-            // Here you can pre-trust remote SHIP devices per SKIs
-            "e268fabdcbb076e13d5f2ea7df6b2d7c382a967f"
         ).withConnectClientsTo(
             TRUSTED // Configure which SHIP devices to connect to (ALL, TRUSTED, NONE)
         );
 
+        if (argList.size() >= 3) {
+            shipCommunication = shipCommunication.withTrustedSkis(
+                // Here you can pre-trust remote SHIP devices identified by their SKI
+                new HashSet<>(argList.subList(2, argList.size() - 1))
+            );
+        }
+
         ScaledNumberWrapper bigScaledNumber = new ScaledNumberWrapper(12, 6);
 
+        String failsafeDuration = "PT2H";
         LpcCs lpcCs = new LpcCs(
             // TODO: here, you can define initial default values. The javadoc
             //  should explain the different parameters.
             new SimpleLimitationConfig(
-                "PT2H",
+                failsafeDuration,
                 bigScaledNumber,
                 bigScaledNumber,
                 bigScaledNumber
-            ));
+        ));
+        LppCs lppCs = new LppCs(
+            new SimpleLimitationConfig(
+                failsafeDuration,
+                bigScaledNumber,
+                /* For LPP, the LoadControl Limit is negative, but NominalMax
+                 * and Failsafe are positive. */
+                bigScaledNumber.negate(),
+                bigScaledNumber
+        ));
 
-        lpcCs.addListener(Main::log);
+        lpcCs.addListener((trigger, state, limit) -> log(
+            trigger,
+            state,
+            limit,
+            lpcCs.getCharacteristicType()
+        ));
+        lppCs.addListener((trigger, state, limit) -> log(
+            trigger,
+            state,
+            limit,
+            lppCs.getCharacteristicType()
+        ));
 
         lpcCs.addListener(((event, state, activeLimit) -> {
             // TODO: your listener goes here
@@ -97,17 +132,24 @@ public class Main {
             .withUseCases(
                 /* Here you can add supported EEBus Use Cases to the device.
                  * These must implement the UseCase interface. */
-                lpcCs
+                lpcCs,
+                lppCs
             )
             .applyToDevice()
             .build();
     }
 
-    private static void log(Event trigger, State state, ActiveLimit limit) {
+    private static void log(
+        Event trigger,
+        State state,
+        ActiveLimit limit,
+        String direction
+    ) {
         LOG.info(
-            "Event {} was fired in LPC CS resulting in State: {}; Active limit: {}",
+            "Event {} was fired resulting in State: {}; Active {} limit: {}",
             trigger.name(),
             state.name(),
+            direction,
             limit
         );
     }
