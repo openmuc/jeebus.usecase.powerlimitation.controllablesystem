@@ -55,7 +55,10 @@ public class Main {
             "local.",
             "Dishwasher ExampleCompany EEB01M4EU",
             "exampleAlias",
-            "keystore.jks",
+            // This keystore is just for reproducability of this demo.
+            // NEVER use it in production systems!
+            ClassLoader.getSystemResource("keystore.jks").getPath(),
+            // ALWAYS use your own, strong passphrases in production!
             "CHANGEME".toCharArray(),
             "CHANGEME".toCharArray(),
             "CN=example name",
