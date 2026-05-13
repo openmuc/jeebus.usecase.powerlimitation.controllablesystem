@@ -13,7 +13,7 @@ project.ext {
     destinationDir = new File("$rootDir/build/")
 
     cfgShipVersion = "2.2.0"
-    cfgSpineVersion = "4.0.0"
+    cfgSpineVersion = "4.0.1"
 
     cfgProjectGroup = 'org.openmuc.jeebus.usecase.powerlimitation'
     cfgVersion = '1.0.1-SNAPSHOT'
