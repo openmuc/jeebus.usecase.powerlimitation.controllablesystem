@@ -47,6 +47,12 @@ public class Main {
 
         List<String> argList = Arrays.asList(args);
 
+        String certPath = ClassLoader.getSystemResource("keystore.jks")
+            .toURI()
+            .getPath();
+
+        LOG.debug("Path to keystore: {}", certPath);
+
         ShipNodeConfiguration shipConfig = new ShipNodeConfiguration(
             argList.isEmpty() ? "0.0.0.0" : argList.get(0),
             argList.size() >= 2 ? Integer.parseInt(argList.get(1)) : 8080,
@@ -58,7 +64,7 @@ public class Main {
             "exampleAlias",
             // This keystore is just for reproducability of this demo.
             // NEVER use it in production systems!
-            ClassLoader.getSystemResource("keystore.jks").toURI().getPath(),
+            certPath,
             // ALWAYS use your own, strong passphrases in production!
             "CHANGEME".toCharArray(),
             "CHANGEME".toCharArray(),
