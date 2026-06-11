@@ -27,6 +27,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Main {
         MethodHandles.lookup().lookupClass()
     );
 
-    public static void main(String... args) {
+    public static void main(String... args) throws URISyntaxException {
         LOG.info(
             "Starting controllable system demo with args {}",
             Arrays.toString(args)
@@ -57,7 +58,7 @@ public class Main {
             "exampleAlias",
             // This keystore is just for reproducability of this demo.
             // NEVER use it in production systems!
-            ClassLoader.getSystemResource("keystore.jks").getPath(),
+            ClassLoader.getSystemResource("keystore.jks").toURI().getPath(),
             // ALWAYS use your own, strong passphrases in production!
             "CHANGEME".toCharArray(),
             "CHANGEME".toCharArray(),
