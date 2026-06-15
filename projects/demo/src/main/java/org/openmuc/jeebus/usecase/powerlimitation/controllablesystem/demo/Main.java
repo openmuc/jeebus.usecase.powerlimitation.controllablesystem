@@ -81,7 +81,7 @@ public class Main {
         if (argList.size() >= 3) {
             shipCommunication = shipCommunication.withTrustedSkis(
                 // Here you can pre-trust remote SHIP devices identified by their SKI
-                new HashSet<>(argList.subList(2, argList.size() - 1))
+                new HashSet<>(argList.subList(2, argList.size()))
             );
         }
 
