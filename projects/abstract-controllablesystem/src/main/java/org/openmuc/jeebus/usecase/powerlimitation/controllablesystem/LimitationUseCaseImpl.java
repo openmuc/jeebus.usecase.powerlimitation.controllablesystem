@@ -199,7 +199,6 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
         deviceConfigurationFeature
             .getKeyValueListDataFunction()
             .setAllowedWriteCmdOptions(
-                FULL_WRITE,
                 PARTIAL_WRITE_BY_FUNCTION_ID,
                 PARTIAL_WRITE_BY_SELECTOR
             );
@@ -210,7 +209,6 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
 
         loadControlFeature.getLimitDescriptionFunction().setWritable(false, false);
         loadControlFeature.getLimitListDataFunction().setAllowedWriteCmdOptions(
-            FULL_WRITE,
             PARTIAL_WRITE_BY_FUNCTION_ID,
             PARTIAL_WRITE_BY_SELECTOR,
             DELETE_ELEMENTS,
@@ -237,11 +235,14 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
             );
         }
         switch (writeListCmdOption) {
-            case FULL_WRITE:
             case PARTIAL_WRITE_BY_FUNCTION_ID:
             case PARTIAL_WRITE_BY_SELECTOR:
                 validateLimitList(dataTypeList);
                 break;
+            case FULL_WRITE:
+                throw new DataValidationException(
+                    "Full write on LoadControlLimits is not allowed."
+                );
             case DELETE_ELEMENTS:
             case DELETE_ELEMENTS_BY_SELECTOR:
                 if (!isValidLoadControlDelete(elements)) {
