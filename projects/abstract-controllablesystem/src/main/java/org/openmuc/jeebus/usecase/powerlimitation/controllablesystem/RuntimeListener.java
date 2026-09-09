@@ -53,9 +53,9 @@ public class RuntimeListener implements FailsafeListener, SpineSubscription {
     }
 
     @Override
-    public void updateFailsafeDuration(KeyValue durationData) {
+    public void updateFailsafeDuration(KeyValue duration) {
         stateMachine.updateFailsafeDuration(
-            durationData
+            duration
                 .getDataCopy()
                 .getValue()
                 .getDuration()

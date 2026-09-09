@@ -54,7 +54,7 @@ class StateMachineTest {
         // Transition 0
         StateMachine machine = getStateMachine();
         assertThat(machine.getState(), is(INIT));
-        assertThat(machine.getActiveLimit().toString(), startsWith("22E+3 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("22000.0 W"));
 
         assertThat(machine.canUpdateFailsafeValues(), is(false));
         assertThat(machine.wasHeartbeatReceived(), is(false));
@@ -85,7 +85,7 @@ class StateMachineTest {
 
         machine.updateLimit(getLimit(true));
         assertThat(machine.getState(), is(LIMITED));
-        assertThat(machine.getActiveLimit().toString(), startsWith("10 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("10.0 W"));
     }
 
     @Test
@@ -117,7 +117,7 @@ class StateMachineTest {
 
         machine.updateLimit(getLimit(true));
         assertThat(machine.getState(), is(LIMITED));
-        assertThat(machine.getActiveLimit().toString(), startsWith("10 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("10.0 W"));
     }
 
     @Test
@@ -139,7 +139,7 @@ class StateMachineTest {
 
         scheduler.tick(1, MINUTES);
         assertThat(machine.getState(), is(FAILSAFE));
-        assertThat(machine.getActiveLimit().toString(), startsWith("22E+3 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("22000.0 W"));
     }
 
     @Test
@@ -177,7 +177,7 @@ class StateMachineTest {
 
         scheduler.tick(1, MINUTES);
         assertThat(machine.getState(), is(FAILSAFE));
-        assertThat(machine.getActiveLimit().toString(), startsWith("22E+3 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("22000.0 W"));
     }
 
     @Test
@@ -226,7 +226,7 @@ class StateMachineTest {
         machine.updateLimit(getLimit(true));
 
         assertThat(machine.getState(), is(LIMITED));
-        assertThat(machine.getActiveLimit().toString(), startsWith("10 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("10.0 W"));
     }
 
     @Test
@@ -315,7 +315,7 @@ class StateMachineTest {
 
         machine.updateLimit(getLimit(true));
         assertThat(machine.getState(), is(LIMITED));
-        assertThat(machine.getActiveLimit().toString(), startsWith("10 W"));
+        assertThat(machine.getActiveLimit().toString(), startsWith("10.0 W"));
     }
 
     @Test

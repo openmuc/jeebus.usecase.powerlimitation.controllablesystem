@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0] - 
+
+### Changed
+
+- update jEEBus.SHIP dependency to 3.0.1
+- update jEEBus.SPINE dependency to 4.1.1
+- improve `ActiveLimit#toString`
+
 ## [1.0.0] - 2026-04-24
 
 _Initial Release._

@@ -60,6 +60,11 @@ configure(allprojects) {
         }
         // central maven repository
         mavenCentral()
+        // central maven snapshot repository
+        maven {
+            name = 'Central Portal Snapshots'
+            url = 'https://central.sonatype.com/repository/maven-snapshots/'
+        }
         // eebus group repository
         maven {
             url "https://gitlab.cc-asp.fraunhofer.de/api/v4/groups/18477/-/packages/maven"

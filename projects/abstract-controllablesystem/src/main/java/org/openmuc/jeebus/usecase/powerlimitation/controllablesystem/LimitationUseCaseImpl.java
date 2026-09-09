@@ -53,7 +53,6 @@ import static org.openmuc.jeebus.spine.xsd.v1.RoleType.SERVER;
     SUB_METER_ELECTRICITY
 })
 public abstract class LimitationUseCaseImpl implements LimitationUseCase {
-    public static final int DEFAULT_HEARTBEAT_INTERVAL_SECONDS = 60;
     private final Logger logger;
 
     private static final String ACTOR = "ControllableSystem";
@@ -130,7 +129,7 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
     private Device device = null;
 
     protected RuntimeListener runtimeListener;
-    private StateMachine stateMachine;
+    private final StateMachine stateMachine;
     protected LoadControlLimit loadControlLimit;
 
     protected RunningKeyValue failsafeDuration;

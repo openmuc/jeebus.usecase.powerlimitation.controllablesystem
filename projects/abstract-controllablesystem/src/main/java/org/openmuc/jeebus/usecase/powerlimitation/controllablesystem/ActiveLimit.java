@@ -97,10 +97,11 @@ public class ActiveLimit {
 
     @Override
     public String toString() {
-        String result = scaledNumber.toString() + " " + getUnit() + ", active ";
-
-        result += duration.map(s -> "for " + s).orElse("until EG disconnects");
-
-        return result;
+        return String.format(
+            "%s %s, active %s",
+            getResultingValue(),
+            getUnit(),
+            duration.map(s -> "for " + s).orElse("until EG disconnects")
+        );
     }
 }

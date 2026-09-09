@@ -11,7 +11,9 @@
 package org.openmuc.jeebus.usecase.powerlimitation.controllablesystem.demo;
 
 
-import org.openmuc.jeebus.ship.api.ShipNodeConfiguration;
+import org.openmuc.jeebus.ship.api.ConfigBuilder;
+import org.openmuc.jeebus.ship.api.cert.KeyStoreCertificateStorage;
+import org.openmuc.jeebus.ship.node.ShipConfig;
 import org.openmuc.jeebus.shipspine.ShipCommunication;
 import org.openmuc.jeebus.spine.api.Device;
 import org.openmuc.jeebus.spine.utils.datatypes.ScaledNumberWrapper;
@@ -27,12 +29,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
+import java.net.InetSocketAddress;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.openmuc.jeebus.shipspine.ShipCommunication.ConnectClientsTo.TRUSTED;
+import static org.openmuc.jeebus.shipspine.ShipCommunication.ConnectClientsTo.*;
 
 public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(
@@ -53,37 +57,42 @@ public class Main {
 
         LOG.debug("Path to keystore: {}", certPath);
 
-        ShipNodeConfiguration shipConfig = new ShipNodeConfiguration(
+        InetSocketAddress socket = new InetSocketAddress(
             argList.isEmpty() ? "0.0.0.0" : argList.get(0),
-            argList.size() >= 2 ? Integer.parseInt(argList.get(1)) : 8080,
-            "/ship/",
-            true,
-            "EXAMPLEBRAND-EEB01M3EU-001122334455",
-            "local.",
-            "Dishwasher ExampleCompany EEB01M4EU",
-            "exampleAlias",
-            // This keystore is just for reproducability of this demo.
-            // NEVER use it in production systems!
-            certPath,
-            // ALWAYS use your own, strong passphrases in production!
-            "CHANGEME".toCharArray(),
-            "CHANGEME".toCharArray(),
-            "CN=example name",
-            3650
+            argList.size() >= 2 ?
+                Integer.parseInt(argList.get(1)) :
+                8080
         );
 
-        ShipCommunication shipCommunication = new ShipCommunication(
-            shipConfig
-        ).withConnectClientsTo(
-            TRUSTED // Configure which SHIP devices to connect to (ALL, TRUSTED, NONE)
-        );
+        ConfigBuilder shipConfig = ShipConfig.getBuilder()
+            .withNetworkInterfaceScanInitialDelay(0)
+            .withServerBindAddresses(Collections.singleton(socket))
+            .withId("EXAMPLEBRAND-EEB01M3EU-001122334455")
+            .withMDnsServiceInstance("Dishwasher ExampleCompany EEB01M4EU")
+            // This keystore is just for reproducability of this demo.
+            // NEVER use it in production systems! We strongly recommend implementing
+            // your own CertificateStorage
+            .withCertificateStorage(new KeyStoreCertificateStorage(
+                certPath,
+                "exampleAlias",
+                // ALWAYS use your own, strong passphrases in production!
+                "CHANGEME".toCharArray(),
+                "CHANGEME".toCharArray()
+            ))
+            .withCertificateDistinguishedName("CN=example name");
 
         if (argList.size() >= 3) {
-            shipCommunication = shipCommunication.withTrustedSkis(
+            shipConfig.withTrustedSkis(
                 // Here you can pre-trust remote SHIP devices identified by their SKI
                 new HashSet<>(argList.subList(2, argList.size()))
             );
         }
+
+        ShipCommunication shipCommunication = new ShipCommunication(
+            shipConfig.build()
+        ).withConnectClientsTo(
+            TRUSTED // Configure which SHIP devices to connect to (ALL, TRUSTED, NONE)
+        );
 
         ScaledNumberWrapper bigScaledNumber = new ScaledNumberWrapper(12, 6);
 
@@ -111,13 +120,13 @@ public class Main {
             trigger,
             state,
             limit,
-            lpcCs.getCharacteristicType()
+            "LPC"
         ));
         lppCs.addListener((trigger, state, limit) -> log(
             trigger,
             state,
             limit,
-            lppCs.getCharacteristicType()
+            "LPP"
         ));
 
         lpcCs.addListener(((event, state, activeLimit) -> {
@@ -134,18 +143,15 @@ public class Main {
             .withCommunication(shipCommunication)
             // Set the SPINE device ID
             .withId("d:_n:MinimalExample_123")
-            /* Enable the automatic SPINE DetailedDiscovery + UseCaseDiscovery of
-             * remote devices */
-            .withDiscoverDevices(true)
             .addEntity()
-            .setType(EntityTypeEnumType.CEM)
-            .withUseCases(
-                /* Here you can add supported EEBus Use Cases to the device.
-                 * These must implement the UseCase interface. */
-                lpcCs,
-                lppCs
-            )
-            .applyToDevice()
+                .setType(EntityTypeEnumType.CEM)
+                .withUseCases(
+                    /* Here you can add supported EEBus Use Cases to the device.
+                     * These must implement the UseCase interface. */
+                    lpcCs,
+                    lppCs
+                )
+                .applyToDevice()
             .build();
     }
 
