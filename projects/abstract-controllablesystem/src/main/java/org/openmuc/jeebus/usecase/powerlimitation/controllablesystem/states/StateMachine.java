@@ -202,7 +202,7 @@ public class StateMachine {
     }
 
     public void close() {
-        executor.shutdown();
+        executor.shutdownNow();
     }
 
 }
