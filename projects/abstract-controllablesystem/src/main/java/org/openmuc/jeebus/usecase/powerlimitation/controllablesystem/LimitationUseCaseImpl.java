@@ -600,7 +600,8 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
 
     @Override
     public void close() {
-        // TODO: figure out what needs cleaning up
+        // TODO: figure out what other fields need cleaning up
+        this.stateMachine.close();
     }
 
     public HeartbeatDataFunction getHeartbeatDataFunction() {

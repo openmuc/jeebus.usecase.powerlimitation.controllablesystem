@@ -201,4 +201,8 @@ public class StateMachine {
         listeners.add(what);
     }
 
+    public void close() {
+        executor.shutdown();
+    }
+
 }
