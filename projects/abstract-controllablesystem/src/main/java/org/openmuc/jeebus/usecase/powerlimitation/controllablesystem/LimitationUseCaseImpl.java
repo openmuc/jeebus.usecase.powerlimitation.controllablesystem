@@ -602,6 +602,10 @@ public abstract class LimitationUseCaseImpl implements LimitationUseCase {
     public void close() {
         // TODO: figure out what other fields need cleaning up
         this.stateMachine.close();
+        if (this.limitationThread != null) {
+            this.limitationThread.interrupt();
+            this.limitationThread = null;
+        }
     }
 
     public HeartbeatDataFunction getHeartbeatDataFunction() {
