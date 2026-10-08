@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.invoke.MethodHandles;
 import java.net.InetSocketAddress;
 import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -51,9 +52,9 @@ public class Main {
 
         List<String> argList = Arrays.asList(args);
 
-        String certPath = ClassLoader.getSystemResource("keystore.jks")
-            .toURI()
-            .getPath();
+        String certPath = Paths.get(
+            ClassLoader.getSystemResource("keystore.jks").toURI()
+        ).toString();
 
         LOG.debug("Path to keystore: {}", certPath);
 
