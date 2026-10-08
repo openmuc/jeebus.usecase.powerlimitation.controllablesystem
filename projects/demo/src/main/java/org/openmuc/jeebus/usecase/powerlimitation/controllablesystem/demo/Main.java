@@ -68,8 +68,8 @@ public class Main {
         ConfigBuilder shipConfig = ShipConfig.getBuilder()
             .withNetworkInterfaceScanInitialDelay(0)
             .withServerBindAddresses(Collections.singleton(socket))
-            .withId("EXAMPLEBRAND-EEB01M3EU-001122334455")
-            .withMDnsServiceInstance("Dishwasher ExampleCompany EEB01M4EU")
+            .withId("FRAUNHOFER-ISE-JEEBUS-CONTROLLABLE-SYSTEM-1")
+            .withMDnsServiceInstance("Fraunhofer ISE jEEBus Controllable System 1")
             // This keystore is just for reproducability of this demo.
             // NEVER use it in production systems! We strongly recommend implementing
             // your own CertificateStorage
@@ -143,7 +143,7 @@ public class Main {
             // Set SHIP as the communication protocol
             .withCommunication(shipCommunication)
             // Set the SPINE device ID
-            .withId("d:_n:MinimalExample_123")
+            .withId("d:_n:Fraunhofer-ISE-jEEBus-Controllable-System-1")
             .addEntity()
                 .setType(EntityTypeEnumType.CEM)
                 .withUseCases(
